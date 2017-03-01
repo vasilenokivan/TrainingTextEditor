@@ -11,6 +11,8 @@
 #include <QFileDialog>
 #include <QTextEdit>
 #include <QClipboard>
+#include <iostream>
+#include <QIODevice>
 
 
 
@@ -48,7 +50,8 @@ public:
     QString fileName;                 // В строке хранится путь к файлу с которым сейчас работаю
     QStringList strListFileName;
     QString icons[6];
-    //QClipboard myBuffer;
+    QString myArgument;
+    void myOpenFile (QString myArgv);
 
 
 
