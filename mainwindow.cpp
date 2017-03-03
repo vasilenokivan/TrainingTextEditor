@@ -178,13 +178,13 @@ void MainWindow :: button_clicked()
                 case BUTTON_CUT:
                 {
                     myTextEdit->cut();
+                    break;
                 }
-
 
                 case BUTTON_INSERT:
                 {
-                    //if(QTextEdit::canPaste())
-                        myTextEdit->paste();
+                    myTextEdit->paste();
+                    break;
                 }
             }
         }
@@ -200,11 +200,50 @@ void MainWindow::myOpenFile(QString myArgv)
         if (!myFile.open(QIODevice::ReadOnly | QIODevice::Text))
                 return;
         QByteArray a;
-        a=myFile.readAll();
-        myTextEdit->setText(QString(a));
+        //QColor b;
+        a=myFile.readAll(); //Прочитать все из файла
+        //myTextEdit->setTextColor(Qt::red);                //Установить красный цвет текста
+        //myTextEdit->setTextBackgroundColor(Qt::green);    //Установить зеленый цвет фона текста
+        //myTextEdit->setText(QString(a));                  //Установить строку в textEditor, преобразование из QByteArray в QString
+
+
         myFile.close();
 
+
+
     }
+}
+
+void MainWindow::myTextColor()
+{
+    QTextDocument *document = myTextEdit->document();            //Получаем текстовый документ из текстового редактора
+
+
+    QTextCursor newCursor(document);                             //Создает курсор указывающий на начало документа
+                                                                  //Искомая подстрока
+    QString searchString="****";
+
+     while (!newCursor.isNull() && !newCursor.atEnd()) {         //Возвращает истину если курсор равен нулу, возвращает истину если курсор находится в конце документа
+         newCursor = document->find(searchString, newCursor);    //Находит следующее вхождение подстроки в строке документа. Превый аргум. искомая подстрока
+
+         if (!newCursor.isNull()) {
+             newCursor.movePosition(QTextCursor::WordRight,    //Перемещение в право на одно слово
+                                    QTextCursor::KeepAnchor);  //Оставить флаг там, где он находится
+
+            //myTextEdit->setText(QString(a));
+            // newCursor.mergeCharFormat(colorFormat);  //Обьединяет текущий формат символов со свойствами модификатора формата. Если курсор выделил текст, эта функция прменяет все свойства установленные в модификаторе  для всех форматов символов в выделении.
+
+
+         }
+     }
+
+
+
+
+
+
+
+    //return str;
 }
 
 

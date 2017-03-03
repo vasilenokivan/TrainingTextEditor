@@ -13,6 +13,10 @@
 #include <QClipboard>
 #include <iostream>
 #include <QIODevice>
+#include <QTextCursor>
+#include <QTextCharFormat>
+#include <QColor>
+using namespace std;
 
 
 
@@ -50,8 +54,9 @@ public:
     QString fileName;                 // В строке хранится путь к файлу с которым сейчас работаю
     QStringList strListFileName;
     QString icons[6];
-    QString myArgument;
+    //QString myArgument;
     void myOpenFile (QString myArgv);
+    void myTextColor();
 
 
 

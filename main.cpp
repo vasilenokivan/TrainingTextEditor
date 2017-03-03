@@ -13,11 +13,10 @@ int main(int argc, char *argv[])
     {
         if(argv[1]!=0)
         {
-            //w.myOpenFile(QString (argv[1]));
             w.myOpenFile(QString (QLatin1String(argv[1])));
-            //w.myArgument=QString (QLatin1String(argv[1]));
         }
     }
+
 
     return a.exec();
 }
