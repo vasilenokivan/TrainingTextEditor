@@ -204,12 +204,10 @@ void MainWindow::myOpenFile(QString myArgv)
         a=myFile.readAll(); //Прочитать все из файла
         //myTextEdit->setTextColor(Qt::red);                //Установить красный цвет текста
         //myTextEdit->setTextBackgroundColor(Qt::green);    //Установить зеленый цвет фона текста
-        //myTextEdit->setText(QString(a));                  //Установить строку в textEditor, преобразование из QByteArray в QString
-
+        myTextEdit->setText(QString(a));                  //Установить строку в textEditor, преобразование из QByteArray в QString
+        myTextColor();
 
         myFile.close();
-
-
 
     }
 }
@@ -219,9 +217,34 @@ void MainWindow::myTextColor()
     QTextDocument *document = myTextEdit->document();            //Получаем текстовый документ из текстового редактора
 
 
+
+    QTextCharFormat colorformat = myTextEdit->currentCharFormat();
+    //colorformat.setFontUnderline(true);                        //Подчеркивает шрифт
+    //colorformat.setFontWeight(100);                            //Выделяет шрифт жирным
+    //colorformat.setToolTip("Ссылка");                          //Создает ссылку на указанную строку
+    //colorformat.setFontPointSize(30);                          //Устанавливает размер шрифта
+    //colorformat.setFontOverline(true);                         //Подчеркивание сверух
+    //colorformat.setFontItalic(true);                           //Курсив
+    QFont myFont;
+    myFont.setBold(true);
+    colorformat.setFont(myFont);                                 //Выделяет шрифт жирным
+
     QTextCursor newCursor(document);                             //Создает курсор указывающий на начало документа
-                                                                  //Искомая подстрока
-    QString searchString="****";
+
+
+    QBrush textBrush( Qt::red );
+    QPen outlinePen( Qt::gray, 1 );
+
+    QTextEdit::ExtraSelection selection;
+    //selection.newCursor = QTextCursor(document());
+
+    //selection.format.setBackground( backBrush );
+    selection.format.setForeground( textBrush );
+    selection.format.setProperty( QTextFormat::OutlinePen, outlinePen );
+
+
+
+    QString searchString="MainWindow::MainWindow(QWidget *parent) :"; //Искомая подстрока
 
      while (!newCursor.isNull() && !newCursor.atEnd()) {         //Возвращает истину если курсор равен нулу, возвращает истину если курсор находится в конце документа
          newCursor = document->find(searchString, newCursor);    //Находит следующее вхождение подстроки в строке документа. Превый аргум. искомая подстрока
@@ -230,9 +253,15 @@ void MainWindow::myTextColor()
              newCursor.movePosition(QTextCursor::WordRight,    //Перемещение в право на одно слово
                                     QTextCursor::KeepAnchor);  //Оставить флаг там, где он находится
 
-            //myTextEdit->setText(QString(a));
-            // newCursor.mergeCharFormat(colorFormat);  //Обьединяет текущий формат символов со свойствами модификатора формата. Если курсор выделил текст, эта функция прменяет все свойства установленные в модификаторе  для всех форматов символов в выделении.
 
+         if(newCursor.hasSelection())
+         {
+
+             newCursor.mergeCharFormat(selection.format);
+            //newCursor.mergeCharFormat(colorformat);  //Обьединяет текущий формат символов со свойствами модификатора формата. Если курсор выделил текст, эта функция прменяет все свойства установленные в модификаторе  для всех форматов символов в выделении.
+            //newCursor.mergeCharFormat(myModifier.setUnderlineColor(QColor(0, 255, 0)));
+
+         }
 
          }
      }
@@ -247,4 +276,77 @@ void MainWindow::myTextColor()
 }
 
 
+
+
+/*
+ *class FixedQPlainTextEdit : public QPlainTextEdit // I guess the name tells you everything :)
+{
+public:
+    FixedQPlainTextEdit( QWidget* parent = 0 ) : QPlainTextEdit( parent ) {}
+
+protected:
+    void    paintEvent( QPaintEvent* e )
+    {
+        QPaintEvent* fixed_event = new QPaintEvent( e->rect().adjusted( -1, -1, 0, 0 ) ); // left and top edge need to be adjusted by -1
+        QPlainTextEdit::paintEvent( fixed_event );
+        delete fixed_event;
+    }
+};
+
+// below is your example code using the FixedQPlainTextEdit class
+MainWindow::MainWindow( QWidget* p )
+    :
+    QMainWindow( p )
+{
+    QPlainTextEdit* e = new FixedQPlainTextEdit();
+    e->appendPlainText( "#include <QtGui/QApplication>" );
+    e->appendPlainText( "#include \"mainwindow.h\"" );
+    e->appendPlainText( "" );
+    e->appendPlainText( "int main(int argc, char *argv[])" );
+    e->appendPlainText( "{" );
+    e->appendPlainText( "    QApplication a(argc, argv);" );
+    e->appendPlainText( "    MainWindow w;" );
+    e->appendPlainText( "    w.show();" );
+    e->appendPlainText( "" );
+    e->appendPlainText( "    return a.exec();" );
+    e->appendPlainText( "}" );
+
+    this->setCentralWidget( e );
+
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    QBrush backBrush( Qt::yellow );
+    QBrush textBrush( Qt::black );
+    QPen outlinePen( Qt::gray, 1 );
+    QString highlighText = "QApplication";
+
+    for( int i=0; i<e->document()->blockCount(); i++ )
+    {
+        QTextBlock block = e->document()->findBlockByNumber( i );
+        if( block.isValid() )
+        {
+            QString text = block.text();
+            int p;
+
+            if( (p=text.indexOf(highlighText)) != -1 )
+            {
+                int pos = block.position() + p;
+
+                QTextEdit::ExtraSelection selection;
+                selection.cursor = QTextCursor(e->document());
+                selection.cursor.setPosition( pos );
+                selection.cursor.setPosition( pos+highlighText.length(), QTextCursor::KeepAnchor );
+                selection.format.setBackground( backBrush );
+                selection.format.setForeground( textBrush );
+                selection.format.setProperty( QTextFormat::OutlinePen, outlinePen );
+
+                extraSelections.append( selection );
+            }
+        }
+    }
+
+    e->setExtraSelections( extraSelections );
+}
+
+ */
 
