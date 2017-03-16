@@ -231,23 +231,41 @@ void MainWindow::myTextColor()
 
     QTextCursor newCursor(document);                             //Создает курсор указывающий на начало документа
 
+//*******************************************************************************
+                                        //  Класс QBrush определяет шаблон заполнения фигур, нарисованных QPainter
 
-    QBrush textBrush( Qt::red );
-    QPen outlinePen( Qt::gray, 1 );
+    QBrush textBrush( Qt::red );        // Qt::red - enum Qt::GlobalColor ((Перечисление глобальных цветов)Предопределенные объекты QColor Qt:)
+                                        // Конструктор создает черную кисть по умолчанию со стилем Qt :: NoBrush (то есть эта кисть не будет заполнять фигуры).
 
-    QTextEdit::ExtraSelection selection;
-    //selection.newCursor = QTextCursor(document());
+// ******************************************************************************
+                                                                //  Класс QPen определяет, как QPainter должен рисовать линии и контуры фигур.
+                                                                // Ручка имеет стиль (), width (), brush (), capStyle () и joinStyle ().
+                                                                // Различные настройки могут быть легко изменены с помощью соответствующих функций setStyle (), setWidth (), setBrush (), setCapStyle () и setJoinStyle ()
+
+    QPen outlinePen(Qt::gray, 1);                               //Можно выкинуть весь аргумент и результат не поменяется!
+
+//**********************************************************************************
+
+    QTextEdit::ExtraSelection selection;    // Объявление структуры
+
 
     //selection.format.setBackground( backBrush );
-    selection.format.setForeground( textBrush );
+    selection.format.setForeground( textBrush );                 //Формат, используемый для указания переднего плана или фона кисти, цвета для выделения.
     selection.format.setProperty( QTextFormat::OutlinePen, outlinePen );
 
+//**********************************************************************************
+                                                                 // Структура QTextEdit :: ExtraSelection предоставляет способ указания формата символа для данного выделения в документе.
 
+    //QString searchString="*******";                              //Искомая подстрока
+    QStringList searchString;
+    searchString << "QString" << "QStringList" << "QTextEdit" << "QPen" << "Qt" << "QTextCursor" << "QFont" << "QTextEdit" << "ExtraSelection" << "OutlinePen"
+                 << "QBrush" << "QTextCursor" << "QTextCharFormat";
 
-    QString searchString="MainWindow::MainWindow(QWidget *parent) :"; //Искомая подстрока
+//***********************************************************************************
 
+    for(int i=0; i != searchString.length(); i++){
      while (!newCursor.isNull() && !newCursor.atEnd()) {         //Возвращает истину если курсор равен нулу, возвращает истину если курсор находится в конце документа
-         newCursor = document->find(searchString, newCursor);    //Находит следующее вхождение подстроки в строке документа. Превый аргум. искомая подстрока
+         newCursor = document->find(searchString[i], newCursor);    //Находит следующее вхождение подстроки в строке документа. Превый аргум. искомая подстрока
 
          if (!newCursor.isNull()) {
              newCursor.movePosition(QTextCursor::WordRight,    //Перемещение в право на одно слово
@@ -258,13 +276,12 @@ void MainWindow::myTextColor()
          {
 
              newCursor.mergeCharFormat(selection.format);
-            //newCursor.mergeCharFormat(colorformat);  //Обьединяет текущий формат символов со свойствами модификатора формата. Если курсор выделил текст, эта функция прменяет все свойства установленные в модификаторе  для всех форматов символов в выделении.
-            //newCursor.mergeCharFormat(myModifier.setUnderlineColor(QColor(0, 255, 0)));
 
          }
 
          }
      }
+    }
 
 
 
@@ -272,7 +289,7 @@ void MainWindow::myTextColor()
 
 
 
-    //return str;
+    return;
 }
 
 
