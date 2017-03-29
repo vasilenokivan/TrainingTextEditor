@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    brushcolorword.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    brushcolorword.h
 
 FORMS    += mainwindow.ui
 

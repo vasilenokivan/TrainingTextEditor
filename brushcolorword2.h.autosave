@@ -1,0 +1,14 @@
+#ifndef BRUSHCOLORWORD2_H
+#define BRUSHCOLORWORD2_H
+
+
+class brushColorWord2
+{
+public:
+    brushColorWord2();
+    brushColorWord2(Q);
+    QBrush myBrush;
+    QString colorString;
+};
+
+#endif // BRUSHCOLORWORD2_H

@@ -215,88 +215,26 @@ void MainWindow::myOpenFile(QString myArgv)
 void MainWindow::myTextColor()
 {
     QTextDocument *document = myTextEdit->document();            //Получаем текстовый документ из текстового редактора
-    QTextCharFormat colorformat = myTextEdit->currentCharFormat();
+    //QTextCharFormat colorformat = myTextEdit->currentCharFormat();
     //colorformat.setFontUnderline(true);                        //Подчеркивает шрифт
     //colorformat.setFontWeight(100);                            //Выделяет шрифт жирным
     //colorformat.setToolTip("Ссылка");                          //Создает ссылку на указанную строку
     //colorformat.setFontPointSize(30);                          //Устанавливает размер шрифта
     //colorformat.setFontOverline(true);                         //Подчеркивание сверух
     //colorformat.setFontItalic(true);                           //Курсив
-    QFont myFont;
-    myFont.setBold(true);
-    colorformat.setFont(myFont);                                 //Выделяет шрифт жирным
+    //QFont myFont;
+    //myFont.setBold(true);
+    //colorformat.setFont(myFont);                                 //Выделяет шрифт жирным
 
     //QTextCursor newCursor(document);                             //Создает курсор указывающий на начало документа
 
-//*******************************************************************************
-                                        //  Класс QBrush определяет шаблон заполнения фигур, нарисованных QPainter
 
-    QBrush textBrush( Qt::magenta );        // Qt::red - enum Qt::GlobalColor ((Перечисление глобальных цветов)Предопределенные объекты QColor Qt:)
-                                        // Конструктор создает черную кисть по умолчанию со стилем Qt :: NoBrush (то есть эта кисть не будет заполнять фигуры).
-
-    QVector <QBrush> multiColor(10);
-    //multiColor[0]= ( Qt::magenta );
-    //multiColor[1]= ( Qt::green );
-
-// ******************************************************************************
-                                                                //  Класс QPen определяет, как QPainter должен рисовать линии и контуры фигур.
-                                                                // Ручка имеет стиль (), width (), brush (), capStyle () и joinStyle ().
-                                                                // Различные настройки могут быть легко изменены с помощью соответствующих функций setStyle (), setWidth (), setBrush (), setCapStyle () и setJoinStyle ()
-
-    QPen outlinePen(Qt::gray, 1);                               //Можно выкинуть весь аргумент и результат не поменяется!
-
-//**********************************QVector <QStringList> stringColor(10);************************************************
-
-    QTextEdit::ExtraSelection selection;    // Объявление структуры
-
-//QVector <QStringList> stringColor(10);
-    //selection.format.setForeground( multiColor[0] );
-    selection.format.setForeground( textBrush );                 //Формат, используемый для указания переднего плана или фона кисти, цвета для выделения.
-    selection.format.setProperty( QTextFormat::OutlinePen, outlinePen );
-
-//**********************************************************************************
-                                                                 // Структура QTextEdit :: ExtraSelection предоставляет способ указания формата символа для данного выделения в документе.
-
-
-    QStringList searchString;                                    //Искомая подстрока
-    searchString << "QWidget" <<"QString" << "QApplication" << "Qt" << "QLatin1String" << "MainWindow" << "Qt" << "QTextCursor" << "QFont" << "QTextEdit" << "ExtraSelection" << "OutlinePen"
+    QStringList magentaString;
+    magentaString << "QWidget" <<"QString" << "QApplication" << "Qt" << "QLatin1String" << "MainWindow" << "Qt" << "QTextCursor" << "QFont" << "QTextEdit" << "ExtraSelection" << "OutlinePen"
                  << "QBrush" << "QTextCursor" << "QTextCharFormat" << "QPen" << "ExtraSelection" << "WordRight" << "KeepAnchor"
                  << "QByteArray" << "QFile";
-
-
-
-
-
-
-
-//***********************************************************************************
-
-    for(int i=0; i != searchString.length(); ++i){
-        QTextCursor newCursor(document);
-     while (!newCursor.isNull() && !newCursor.atEnd()) {            //Возвращает истину если курсор равен нулу, возвращает истину если курсор находится в конце документа
-
-         newCursor = document->find(searchString[i], newCursor);    //Находит следующее вхождение подстроки в строке документа. Превый аргум. искомая подстрока
-
-         if (!newCursor.isNull()) {
-             newCursor.movePosition(QTextCursor::WordRight,      //Перемещение в право на одно слово
-                                    QTextCursor::KeepAnchor);    //Оставить флаг там, где он находится
-
-
-         if(newCursor.hasSelection())                            //Возвращает true, если курсор содержит выделение; В противном случае возвращает false.
-
-         {
-             newCursor.mergeCharFormat(selection.format);        //Объединяет текущий формат символа курсора со свойствами, описанными модификатором формата.
-
-         }
-
-         }
-     }
-    }
-
-
-
-
-
+    brushColorWord magentaBrushColor(Qt::magenta, magentaString);
+    magentaBrushColor.setColorCursor(document);
 
 
     return;

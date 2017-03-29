@@ -16,6 +16,8 @@
 #include <QTextCursor>
 #include <QTextCharFormat>
 #include <QColor>
+#include "brushcolorword.h"
+
 using namespace std;
 
 
@@ -54,9 +56,11 @@ public:
     QString fileName;                 // В строке хранится путь к файлу с которым сейчас работаю
     QStringList strListFileName;
     QString icons[6];
-    //QString myArgument;
     void myOpenFile (QString myArgv);
     void myTextColor();
+    //QList <brushColorWord*> brushColorList;
+    //QList <Qt::GlobalColor> myGlobalColor;
+    //QList <QStringList> myStringList;
 
 
 
