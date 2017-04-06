@@ -216,6 +216,125 @@ void MainWindow :: button_clicked()
 }
 
 
+/*
+{
+    Q_OBJECT;
+private:
+    QLineEdit m_ptxtFirstName;
+    QLineEdit m_ptxtLastName;
 
+public:
+    InputDialog(QWidget* pwgt=0);
+
+    QString firstName () const;
+    QString lastName () const;
+
+}
+
+*/
+
+
+/*
+
+    if(ok==true|| btn->text()==".") //Если нажата кнопка: число или десятичная точка
+    {
+        if(i!=0)                 //Удалить результа предыдущего расчета при введении нового числа
+            lineEdit->clear();
+        i=0;                     //Разрешает отднократное нажатие "=" для вывода результата
+
+        if(btn->text() == "0")
+        {
+            if(lineEdit->text().contains("."))
+                lineEdit->setText(lineEdit->text()+btn->text()); //Выводит все нули если в строке есть хоть одна точка
+            if(lineEdit->text().length()==0)
+                lineEdit->setText(lineEdit->text()+btn->text()); //Выводит тольк один нуль если строка пустая
+            if(lineEdit->text().toInt()>0)
+                lineEdit->setText(lineEdit->text()+btn->text()); //Выводит неограниченное количество нулей если число более нуля
+        }
+
+        if(btn->text()==".")
+        {
+            if(!lineEdit->text().contains("."))                    //Выводит точку при отсутствии точки в строке
+                lineEdit->setText(lineEdit->text()+btn->text());
+            if(!lineEdit->text().length()==0)                      //Выводит нуль перед точкой если в строке нет символов
+                lineEdit->setText("0.");
+        }
+
+        if(btn->text()!= "." && btn->text()!= "0")          //Выводит все числа кроме нуля и точки
+            lineEdit->setText(lineEdit->text()+btn->text());
+
+    }
+    else
+    {
+
+    if(btn->text()=="/")
+    {
+        x=lineEdit->text().toFloat();
+        lineEdit->clear();
+        z=1;
+    }
+    if(btn->text()=="*")
+    {
+        x=lineEdit->text().toFloat();
+        lineEdit->clear();
+        z=2;
+    }
+    if(btn->text()=="+")
+    {
+        i=0;
+        x=lineEdit->text().toFloat();
+        lineEdit->clear();
+        z=3;
+    }
+    if(btn->text()=="-")
+    {
+        x=lineEdit->text().toFloat();
+        lineEdit->clear();
+        z=4;
+    }
+    if(btn->text()==".")
+    {
+        x=lineEdit->text().toFloat();
+        lineEdit->clear();
+        z=5;
+    }
+
+    if(btn->text()=="=")
+    {
+        if(i==0)
+        {
+            i++;
+            y=lineEdit->text().toFloat();
+            lineEdit->clear();
+
+        switch(z)
+        {
+        case 0:
+            break;
+        case 1:
+            lineEdit->setText(QString::number(x/y));
+            break;
+        case 2:
+            lineEdit->setText(QString::number(x*y));
+            break;
+        case 3:
+            lineEdit->setText(QString::number(x+y));
+            break;
+        case 4:
+            lineEdit->setText(QString::number(x-y));
+            break;
+
+            x=0;
+            y=0;
+            z=0;
+        }
+        }
+
+    }
+    if(btn->text()=="C")
+        lineEdit->clear();
+
+  }
+*/
 
 
